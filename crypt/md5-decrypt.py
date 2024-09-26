@@ -9,14 +9,29 @@ def md5_hash(text):
 def check_md5_in_file(file_path, md5_to_check):
     try:
         print(f"Searching '{md5_to_check}' in dictionary.")
-        with open(file_path, 'r') as file:
-            for line in file:
-                clean_line = line.strip()
-                md5_value = md5_hash(clean_line)
 
-                if md5_value == md5_to_check:
-                    print(f"HASH found: {clean_line}\r\n")
-                    return
+        with open(file_path, 'r') as file:
+            total_lines = sum(1 for _ in file)
+
+        with open(file_path, 'r') as file:
+            for index, line in enumerate(file, start=1):
+                clean_line = line.strip()
+
+                variants = [
+                    clean_line.lower(),
+                    clean_line.upper(),
+                    clean_line.capitalize()
+                ]
+
+                for variant in variants:
+                    md5_value = md5_hash(variant)
+
+                    if md5_value == md5_to_check:
+                        print(f"HASH found: {variant}\n")
+                        return
+
+                progress_percentage = (index / total_lines) * 100
+                print(f"Progress: {progress_percentage:.2f}%", end='\r')
 
         print("HASH not found.\r\n")
     except FileNotFoundError:
