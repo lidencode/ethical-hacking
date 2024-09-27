@@ -23,17 +23,27 @@ def check_md5_in_file(file_path, md5_to_check):
                     clean_line.capitalize()
                 ]
 
+                variants_final = []
+
                 for variant in variants:
+                    for i in range(100):
+                        variants_final.append(f"{variant}{i:02d}")
+
+                    for i in range(1970, 2031):
+                        variants_final.append(f"{variant}{i}")
+
+
+                for variant in variants_final:
                     md5_value = md5_hash(variant)
 
                     if md5_value == md5_to_check:
-                        print(f"HASH found: {variant}\n")
+                        print(f"HASH found: {variant}          \n")
                         return
 
                 progress_percentage = (index / total_lines) * 100
                 print(f"Progress: {progress_percentage:.2f}%", end='\r')
 
-        print("HASH not found.\r\n")
+        print("HASH not found.          \r\n")
     except FileNotFoundError:
         print(f"The file {file_path} don't exist.\r\n")
 
