@@ -6,7 +6,7 @@ def md5_hash(text):
     return hashlib.md5(text.encode('utf-8')).hexdigest()
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 2:
         print("Use: python3 md5-cryot.py <string>")
         sys.exit(1)
 
